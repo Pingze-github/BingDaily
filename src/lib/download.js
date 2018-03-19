@@ -1,16 +1,18 @@
 
-const os = require('os');
-const path = require('path');
-const fs = require('fs');
-const request = require('request');
+const request = require('../utils/request');
 
-function download(url, outPath) {
-  outPath = outPath || path.resolve(os.homedir(), path.basename(url));
-  return new Promise((resolve, reject) => {
-    const stream = fs.createWriteStream(outPath);
-    request(url).pipe(stream);
-    resolve(outPath);
-  });
+async function download(url, outPath) {
+  try {
+    await request({
+      url,
+      save: outPath,
+      timeout: 6 * 1000,
+    });
+    return outPath;
+  } catch (err) {
+    console.error('[download]', err);
+    return null;
+  }
 }
 
 module.exports = download;

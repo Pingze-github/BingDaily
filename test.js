@@ -57,9 +57,9 @@ process.on('unhandledRejection', (rej) => {
 //   set('D:\\Pictures\\wp.bmp')
 // }();
 
-~async function () {
+~(async function () {
   const down = require('./src/lib/download');
-  down('https://cn.bing.com' + '/az/hprichbg/rb/XmasTreeRoad_ZH-CN11556502034_1920x1080.jpg').then((out) => {
-    console.log(out);
-  })
-}();
+  down('https://cn.bing.com' + '/az/hprichbg/rb/XmasTreeRoad_ZH-CN11556502034_1920x1080.jpg', 'C:\\Users\\Duoyi\\BingDaily\\1.jpg').then((out) => {
+    console.log('下载完成', out);
+  });
+}());

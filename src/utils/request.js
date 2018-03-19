@@ -1,3 +1,5 @@
+
+const fs = require('fs');
 const { net } = require('electron');
 const URL = require('url');
 const querystring = require('querystring');
@@ -49,14 +51,20 @@ function request(opts, cb) {
     path,
     headers: opts.headers,
   }, (res) => {
-    res.on('data', (chunk) => {
-      chunks = Buffer.concat([chunks, chunk]);
-    });
     res.on('end', () => {
       clearTimeout(timeoutId);
       res.body = chunks.toString();
       return cb(null, res);
     });
+    if (opts.save) {
+      res.pipe(fs.createWriteStream(opts.save));
+    } else if (opts.pipe) {
+      res.pipe(opts.pipe);
+    } else {
+      res.on('data', (chunk) => {
+        chunks = Buffer.concat([chunks, chunk]);
+      });
+    }
   });
   req.on('error', (err) => {
     clearTimeout(timeoutId);

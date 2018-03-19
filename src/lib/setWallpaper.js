@@ -6,11 +6,11 @@ function setWallpaper(imgPath) {
     exec(`${config.setWallpaperWin} ${imgPath}`, (err, out) => {
       if (err) return reject(err);
       if (+out === 1) {
-        return resolve(true)
+        return resolve(true);
       }
-      resolve(false)
-    })
-  })
+      resolve(false);
+    });
+  });
 }
 
 module.exports = setWallpaper;

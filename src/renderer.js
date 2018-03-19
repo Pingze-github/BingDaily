@@ -1,5 +1,5 @@
 
-const EventEmitter  = require('events').EventEmitter;
+const EventEmitter = require('events').EventEmitter;
 
 class DatePicker extends EventEmitter {
   constructor(date, options) {
@@ -39,7 +39,7 @@ class DatePicker extends EventEmitter {
     const month = +this.$numbers.month.text();
     const day = +this.$numbers.day.text();
     if (flag === 'asObj') {
-      return { year, month, day, asDate }
+      return { year, month, day, asDate };
     }
     return new Date(`${year}-${month}-${day}`);
   }
@@ -83,21 +83,21 @@ class DatePicker extends EventEmitter {
         if (limit[2] === 'circle') {
           newNumber = limit[1];
         } else {
-          newNumber = newNumber + 1;
+          newNumber += 1;
         }
       } else if (newNumber > limit[1]) {
         if (limit[2] === 'circle') {
           newNumber = limit[0];
         } else {
-          newNumber = newNumber - 1;
+          newNumber -= 1;
         }
       }
       dateShow[key] = newNumber;
       if (this.options.range) {
-        const dateShowValue = dateShow.asDate(dateShow).setHours(0,0,0,0);
-        if (dateShowValue > this.options.range[1].setHours(0,0,0,0)) {
+        const dateShowValue = dateShow.asDate(dateShow).setHours(0, 0, 0, 0);
+        if (dateShowValue > this.options.range[1].setHours(0, 0, 0, 0)) {
           return this.set(this.options.range[1]);
-        } else if (dateShowValue < this.options.range[0].setHours(0,0,0,0)) {
+        } else if (dateShowValue < this.options.range[0].setHours(0, 0, 0, 0)) {
           return this.set(this.options.range[0]);
         }
       }
@@ -132,7 +132,7 @@ $(document).ready(() => {
   ipcRenderer.send('html');
   // 应用壁纸
   $('#apply').click(() => {
-    ipcRenderer.send('apply', date);
+    ipcRenderer.send('apply', dateGlob);
   });
   function bindWrap() {
     const $a = $('.wrap a');
@@ -142,7 +142,7 @@ $(document).ready(() => {
       if ($target.attr('origin')) return;
       const url = host + $target.attr('href');
       shell.openExternal(url);
-    })
+    });
   }
   function bindMenu() {
     $('#prev').click(() => {

@@ -9,6 +9,7 @@
     "alert": true,
     "window": true,
     "global": true,
+    "document": true
   },
   "rules": {
     "global-require": 0,

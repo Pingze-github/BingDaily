@@ -23,8 +23,6 @@ async function getDaily(date) {
     },
   });
   const html = res.body;
-  // require('fs').writeFileSync('./test.html', html);
-  // const html = require('fs').readFileSync('./test.html', 'utf-8');
   const $ = cheerio.load(html);
   $('#hplaDL').css('display', 'none');
   $('#hpBingAppQR').css('display', 'none');
@@ -50,5 +48,5 @@ async function getWallpaper(date) {
 
 module.exports = {
   getDaily,
-  getWallpaper
+  getWallpaper,
 };

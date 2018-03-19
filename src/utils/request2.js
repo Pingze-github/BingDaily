@@ -1,3 +1,5 @@
+
+const fs = require('fs');
 const http = require('http');
 const https = require('https');
 const URL = require('url');
@@ -24,6 +26,7 @@ module.exports = promisify(request);
  */
 function request(opts, cb) {
   // 预处理参数
+  if (typeof opts === 'string') opts = { url: opts };
   opts = optsDefault(opts);
 
   opts.query = Object.assign(querystring.parse(URL.parse(opts.url).query), opts.query);
@@ -56,14 +59,20 @@ function request(opts, cb) {
     path,
     headers: opts.headers,
   }, (res) => {
-    res.on('data', (chunk) => {
-      chunks = Buffer.concat([chunks, chunk]);
-    });
     res.on('end', () => {
       clearTimeout(timeoutId);
       res.body = chunks.toString();
       return cb(null, res);
     });
+    if (opts.save) {
+      res.pipe(fs.createWriteStream(opts.save));
+    } else if (opts.pipe) {
+      res.pipe(opts.pipe);
+    } else {
+      res.on('data', (chunk) => {
+        chunks = Buffer.concat([chunks, chunk]);
+      });
+    }
   });
   req.on('error', (err) => {
     clearTimeout(timeoutId);
